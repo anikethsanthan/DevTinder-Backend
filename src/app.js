@@ -11,8 +11,8 @@ app.post("/signup",async (req,res)=>{
 try{
     await user.save();
     res.send("User added succesfully");
-}catch{
-    res.status(400).send("Unsuccesfull request");
+}catch(err){
+    res.status(400).send("Unsuccesfull request"+err.message);
 }
    
 })
@@ -63,14 +63,13 @@ app.patch("/user",async(req,res)=>{
     const data= req.body;
 
     try{
-        await User.findByIdAndUpdate(userId, data);
+        await User.findByIdAndUpdate(userId, data ,{runValidators:true});
         res.send("User updated succesfully");
-    }catch{
-        res.send("something went wrong");
+    }catch(err){
+        res.send("something went wrong"+err.message);
     }
 })
 
-// app.get("/user",async(req,res)=>{})
 
 connectDb().then(()=>{
     console.log("Connection established to database");
