@@ -1,10 +1,12 @@
 const express =require("express");
 const {connectDb}=require("./config/database");
 const User =require("./models/user");
+const validator =require("validator");
 
 
 const app=express()
 app.use(express.json());
+
 app.post("/signup",async (req,res)=>{
     const user= new User(req.body)
   
@@ -12,7 +14,7 @@ try{
     await user.save();
     res.send("User added succesfully");
 }catch(err){
-    res.status(400).send("Unsuccesfull request"+err.message);
+    res.status(400).send("Unsuccesfull request"+" "+err.message);
 }
    
 })
@@ -58,15 +60,28 @@ app.delete("/user", async(req,res)=>{
     }
 })
 
-app.patch("/user",async(req,res)=>{
-    const userId= req.body.userId;
+app.patch("/user/:userId",async(req,res)=>{
+    const userId= req.params?.userId;
     const data= req.body;
 
     try{
+        const alloweddata=["firstName","lastName","password","gender","about","skills"," photoUrl"];
+        const isUpdateAllowed= Object.keys(data).every((k)=> alloweddata.includes(k));
+
+        if(!isUpdateAllowed){
+            throw new Error("Updation of this field is not allowed")
+        }
+        if(data.skills && data.skills.length > 10){
+            throw new Error("You can only add upto 10 skills")
+        }
+        if(data.photoUrl && !validator.isURL(data.photoUrl)){
+            throw new Error ("Enter a valid photo URL")
+        }
+
         await User.findByIdAndUpdate(userId, data ,{runValidators:true});
         res.send("User updated succesfully");
     }catch(err){
-        res.send("something went wrong"+err.message);
+        res.send("something went wrong"+ " "+err.message);
     }
 })
 
