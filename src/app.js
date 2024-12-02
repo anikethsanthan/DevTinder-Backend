@@ -4,10 +4,13 @@ const User =require("./models/user");
 const validator =require("validator");
 const {validateSignup} =require("./utils/validateSignup");
 const bcrypt=require("bcrypt");
+const cookieparser=require("cookie-parser");
+const jwt= require("jsonwebtoken");
 
 
 const app=express()
 app.use(express.json());
+app.use(cookieparser());
 
 
 app.post("/signup",async (req,res)=>{  
@@ -37,16 +40,38 @@ app.post("/login", async(req,res)=>{
         if(!user){
             throw new Error("Invalid Credentials")
         }
-
+        const token= await jwt.sign({_id:user._id},"DEV@Tinder$790");
         const isPasswordValid= await bcrypt.compare(password ,user.password);
         if(!isPasswordValid){
             throw new Error("Invalid Credentials")
         }else{
+            res.cookie("token",token)
             res.send("Login Succesfull")
         }
+       
+        
 
     }catch(err){
         res.send("Error:"+ " "+err.message); 
+    }
+})
+app.get("/profile",async(req,res)=>{
+    try{
+        const cookies= req.cookies;
+        const{token}=cookies;
+        if(!token){
+            throw new Error("Invalid token")
+        }
+        const decodedmessage= await jwt.verify(token,"DEV@Tinder$790");
+        const{_id}=decodedmessage;
+        const user =await User.findById(_id);
+        if(!user){
+            throw new Error("User not found")
+        }
+        res.send(user)
+
+    }catch(err){
+        throw new Error("Error"+ err.message)
     }
 })
 app.get("/user", async(req,res)=>{
