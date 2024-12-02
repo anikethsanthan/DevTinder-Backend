@@ -5,8 +5,9 @@ const validator =require("validator");
 const {validateSignup} =require("./utils/validateSignup");
 const bcrypt=require("bcrypt");
 const cookieparser=require("cookie-parser");
-const jwt= require("jsonwebtoken");
-const {userAuth}=require("./middlewares/auth")
+const {userAuth}=require("./middlewares/auth");
+const getJWT=require("./models/user");
+const validatePassword= require("./models/user")
 
 
 const app=express()
@@ -41,11 +42,11 @@ app.post("/login", async(req,res)=>{
         if(!user){
             throw new Error("Invalid Credentials")
         }
-        const token= await jwt.sign({_id:user._id},"DEV@Tinder$790",{expiresIn:"1d"});
+        const token= await user.getJWT()
         if(!token){
             throw new Error ("Invalid token")
         }
-        const isPasswordValid= await bcrypt.compare(password ,user.password);
+        const isPasswordValid= await user.validatePassword(password)
         if(!isPasswordValid){
             throw new Error("Invalid Credentials")
         }else{
@@ -71,6 +72,9 @@ app.get("/profile",userAuth, async(req,res)=>{
         throw new Error("Error"+ err.message)
     }
 })
+
+
+
 app.get("/user", async(req,res)=>{
     const userEmail= req.body.emailId;
 try{
