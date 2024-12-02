@@ -91,7 +91,6 @@ try{
 }
 
 })
-
 app.get("/feed", async(req,res)=>{
     try{
         const users= await User.find({});
@@ -105,7 +104,6 @@ app.get("/feed", async(req,res)=>{
         res.status(400).send("Something went wrong")
     }
 })
-
 app.delete("/user", async(req,res)=>{
     const userId= req.body.userId;
     try{
@@ -115,7 +113,6 @@ app.delete("/user", async(req,res)=>{
         res.status(400).send("something went wrong")
     }
 })
-
 app.patch("/user/:userId",async(req,res)=>{
     const userId= req.params?.userId;
     const data= req.body;
