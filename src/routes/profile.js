@@ -4,7 +4,8 @@ const {userAuth}=require("../middlewares/auth");
 const User =require("../models/user");
 const validator =require("validator");
 const {validateEditRequest}=require("../utils/validateSignup");
-const validatePassword= require("../models/user")
+const validatePassword= require("../models/user");
+const bcrypt=require("bcrypt");
 
 profileRouter.get("/profile/view",userAuth, async(req,res)=>{
     try{
@@ -42,11 +43,10 @@ profileRouter.patch("/profile/edit",userAuth,async(req,res)=>{
         res.send("something went wrong"+ " "+err.message);
     }
 })
-
+//Add security ques for user in login and also keep it as an option to update password
 profileRouter.patch("/profile/forgotPassword",async(req,res)=>{
     try{
         const { emailId, oldPassword, newPassword } = req.body;
-        console.log(emailId);
         if (!emailId || !oldPassword || !newPassword) {
             return res.status(400).json({ error: "All fields are required." });
         }
@@ -57,7 +57,6 @@ profileRouter.patch("/profile/forgotPassword",async(req,res)=>{
         }
 
         
-        console.log(oldPassword);
         const isPasswordValid= await loggedUser.validatePassword(oldPassword)
             if(!isPasswordValid){
                 return res.status(401).json({ error: "Invalid old password" });
@@ -65,7 +64,6 @@ profileRouter.patch("/profile/forgotPassword",async(req,res)=>{
 
         const hashedPassword = await bcrypt.hash(newPassword, 10);
         loggedUser.password = hashedPassword;
-         console.log(loggedUser.password);
 
 
          await loggedUser.save();
