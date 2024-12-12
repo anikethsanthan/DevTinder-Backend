@@ -4,11 +4,13 @@ const User =require("./models/user");
 
 
 const cookieparser=require("cookie-parser");
+const cors=require("cors");
 
 
 
 
 const app=express()
+app.use(cors())
 app.use(express.json());
 app.use(cookieparser());
 
