@@ -44,7 +44,7 @@ const authRouter= express.Router();
                 throw new Error("Invalid Credentials")
             }else{
                 res.cookie("token",token)
-                res.send("Login Succesfull" +user)
+                res.send(user)
             }
            
             
