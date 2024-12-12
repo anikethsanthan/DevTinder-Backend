@@ -44,13 +44,13 @@ const authRouter= express.Router();
                 throw new Error("Invalid Credentials")
             }else{
                 res.cookie("token",token)
-                res.send("Login Succesfull")
+                res.send("Login Succesfull" +user)
             }
            
             
     
         }catch(err){
-            res.send("Error:"+ " "+err.message); 
+            res.status(400).send("Error:"+ " "+err.message); 
         }
     })
 
