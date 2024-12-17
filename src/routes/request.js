@@ -55,5 +55,41 @@ const existingConnectionRequest = await ConnectRequest.findOne({
     
 })
 
+requestRouter.post("/request/review/:status/:requestId", userAuth, async(req,res)=>{
+  try{
+    const loggedInUSer= req.user;
+    const {status,requestId}= req.params;
+
+    //validating the requests that are allowed
+    const allowedRequests=["accepted", "rejected"]
+    if(!allowedRequests.includes(status)){
+      return res.status(400).json({message:"Please send a valid request"})
+    }
+
+    //validating if the loggedinUSer is same as the toUserID
+
+    const connectionRequest= await ConnectRequest.findOne({
+      _id:requestId,
+      toUserId:loggedInUSer._id,
+      status:"interested"
+    })
+    if(!connectionRequest){
+      return  res.status(404).json({message:"The request you are trying to make is invalid"})
+    }
+
+
+    //all checks ok then change the status in the db
+
+    connectionRequest.status=status;
+
+    const data= await connectionRequest.save();
+
+    res.status(200).json({message:"Connection request " + status, data})
+
+  }catch(err){
+    res.status(400).send(err.message)
+  }
+})
+
 
 module.exports={requestRouter};
