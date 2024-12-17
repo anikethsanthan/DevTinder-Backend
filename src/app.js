@@ -20,54 +20,13 @@ app.use(cookieparser());
 const {authRouter}=require("./routes/auth");
 const{profileRouter}=require("./routes/profile")
 const{requestRouter}=require("./routes/request")
+const {userFeedRouter}= require("./routes/userFeed")
 
 app.use("/",authRouter);
 app.use("/",profileRouter);
-app.use("/",requestRouter)
+app.use("/",requestRouter);
+app.use("/",userFeedRouter);
 
-
-
-
-
-// app.get("/user", async(req,res)=>{
-//     const userEmail= req.body.emailId;
-// try{
-//     const users =  await User.find({emailId:userEmail})
-//     if(users.length ===0){
-//         res.send("User not found");
-         
-//     }else{
-//         res.send(users);
-        
-//     }
-   
-// }catch{
-//     res.status(400).send("something went wrong");
-// }
-
-// })
-// app.get("/feed", async(req,res)=>{
-//     try{
-//         const users= await User.find({});
-//         if(!users){
-//             res.status(400).send("User not found");
-//         }else{
-//             res.send(users);
-//         }
-        
-//     }catch{
-//         res.status(400).send("Something went wrong")
-//     }
-// })
-// app.delete("/user", async(req,res)=>{
-//     const userId= req.body.userId;
-//     try{
-//         await User.findByIdAndDelete(userId);
-//         res.send("User deleted succesfully")
-//     }catch{
-//         res.status(400).send("something went wrong")
-//     }
-// })
 
 
 connectDb().then(()=>{
