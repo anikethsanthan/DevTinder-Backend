@@ -70,7 +70,7 @@ const userSchema= new mongoose.Schema({
     },
     photoUrl:{
         type:String,
-        default:"./User-photo.jpg",
+        default:"https://www.google.com/url?sa=i&url=https%3A%2F%2Ficon-icons.com%2Ficon%2Faccount-profile-user%2F190494&psig=AOvVaw1QFP7GOv8w6W5ZWj-bJ1Ai&ust=1734681450554000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCNjApp2us4oDFQAAAAAdAAAAABAp",
         trim:true,
         maxlength:250,
     }
