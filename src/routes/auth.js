@@ -19,8 +19,13 @@ const authRouter= express.Router();
             emailId,
             password:passwordHash
         })
+        const token= await user.getJWT()
+        if(!token){
+            throw new Error ("Invalid token")
+        }
         await user.save();
-        res.send("User added succesfully");
+        res.cookie("token",token)
+        res.send(user);
     }catch(err){
         res.status(400).send("ERROR :"+" "+err.message);
     }
