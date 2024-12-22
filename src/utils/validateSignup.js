@@ -19,7 +19,7 @@ try{
 }
 
 const validateEditRequest =(req)=>{
-    const allowedUpdates=["firstName","lastName","gender","about","skills","photoUrl"];
+    const allowedUpdates=["firstName","lastName","gender","about","skills","photoUrl","age"];
     const iseditAllowed = Object.keys(req.body).every((field)=>allowedUpdates.includes(field));
     return iseditAllowed;
 }
