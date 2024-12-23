@@ -40,7 +40,7 @@ profileRouter.patch("/profile/edit",userAuth,async(req,res)=>{
         await user.save();
         res.status(200).json(user);
     }catch(err){
-        res.send("something went wrong"+ " "+err.message);
+        res.status(400).send("something went wrong"+ " "+err.message);
     }
 })
 //Add security ques for user in login and also keep it as an option to update password

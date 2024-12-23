@@ -62,7 +62,7 @@ const userSchema= new mongoose.Schema({
     about:{
         type:String,
         default:"Hello user, add some interesting facts about yourself.",
-        maxlength:200,
+        maxlength:500,
     },
     skills:{
         type:[String],
