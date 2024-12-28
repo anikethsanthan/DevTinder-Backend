@@ -13,12 +13,12 @@ requestRouter.post("/request/send/:status/:userId", userAuth,async (req,res)=>{
 //checking for valid status by req
         const allowedStatus=["ignored","interested"]
         if(!allowedStatus.includes(status)){
-          throw new Error("This request is not allowed")
+          return res.status(404).json({ message: "The request you are trying to make is invalid" });
         }
 //checking if the toUser is existing in the database or not
     const user=  await User.findById(toUserId);
             if(!user){
-                throw new Error("User does not exist")
+              return res.status(404).json({ message: "User does not exist" });
             }
 
 //checking they cannot send request to each other if already a connection
@@ -43,14 +43,14 @@ const existingConnectionRequest = await ConnectRequest.findOne({
     })    
     const data = await connectionRequest.save();
 
-    res.json({
+   return res.json({
         message:"Connection request sent succesfully",
         data,
     })
 
 
     }catch(err){
-        res.status(400).send("Error : "+err.message)
+     return   res.status(400).send("Error : "+err.message)
     }
     
 })
@@ -63,7 +63,7 @@ requestRouter.post("/request/review/:status/:requestId", userAuth, async(req,res
     //validating the requests that are allowed
     const allowedRequests=["accepted", "rejected"]
     if(!allowedRequests.includes(status)){
-      return res.status(400).json({message:"Please send a valid request"})
+      return res.status(400).json({ message: "Please send a valid request" });
     }
 
     //validating if the loggedinUSer is same as the toUserID
@@ -74,7 +74,7 @@ requestRouter.post("/request/review/:status/:requestId", userAuth, async(req,res
       status:"interested"
     })
     if(!connectionRequest){
-      return  res.status(404).json({message:"The request you are trying to make is invalid"})
+      return res.status(404).json({ message: "The request you are trying to make is invalid" });
     }
 
 
@@ -84,10 +84,13 @@ requestRouter.post("/request/review/:status/:requestId", userAuth, async(req,res
 
     const data= await connectionRequest.save();
 
-    res.status(200).json({message:"Connection request " + status, data})
+   return res.status(200).json({ message: `Connection request ${status}`, data})
 
   }catch(err){
-    res.status(400).send(err.message)
+  
+    if (!res.headersSent) {
+      return res.status(500).json({ message: "Internal server error", error: err.message });
+    }
   }
 })
 

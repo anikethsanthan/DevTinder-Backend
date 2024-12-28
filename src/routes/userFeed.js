@@ -16,14 +16,14 @@ userFeedRouter.get("/user/requests/received" , userAuth, async(req, res)=>{
         }).populate("fromUserId" ,SAFE_DATA)
 
         if(connectionRequest.length === 0){
-            res.send("You do not have any requests pending")
+           return res.status(400).send("You do not have any requests pending")
         }
         
 
-        res.status(200).send(connectionRequest)
+       return res.status(200).send(connectionRequest)
 
     }catch(err){
-    res.status(400).send("Error :"+err.message);
+   return res.status(400).send("Error :"+err.message);
     }
 })
 
