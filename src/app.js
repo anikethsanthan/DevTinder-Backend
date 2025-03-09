@@ -1,6 +1,8 @@
 const express =require("express");
 const {connectDb}=require("./config/database");
 const User =require("./models/user");
+const dotenv=require("dotenv");
+dotenv.config();
 
 
 const cookieparser=require("cookie-parser");
