@@ -16,9 +16,10 @@ app.use(
       "http://localhost:5173",
       "https://my-portfolio-1f2d5.web.app",
       "https://dev-tinder-frontend-pi.vercel.app",
-      "https://dev-tinder-frontend-y6v33r3bw-aniketh-santhans-projects.vercel.app",
     ],
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 app.use(express.json());
