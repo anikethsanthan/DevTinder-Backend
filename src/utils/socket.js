@@ -4,12 +4,7 @@ const Chat = require("../models/chat");
 const initialiseSocket = (server) => {
   const io = socket(server, {
     cors: {
-      origin: [
-        "http://localhost:5173",
-        "https://my-portfolio-1f2d5.web.app",
-        "https://dev-tinder-frontend-pi.vercel.app",
-        "https://matchnest.web.app",
-      ],
+      origin: ["http://localhost:5173", "https://matchnest.web.app"],
       credentials: true,
       // methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
       // allowedHeaders: ["Content-Type", "Authorization"],
