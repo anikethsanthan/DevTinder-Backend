@@ -10,7 +10,8 @@ const initialiseSocket = (server) => {
         "https://dev-tinder-frontend-pi.vercel.app",
       ],
       credentials: true,
-      methods: ["GET", "POST"],
+      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      allowedHeaders: ["Content-Type", "Authorization"],
     },
   });
 
