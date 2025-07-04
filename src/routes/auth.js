@@ -64,11 +64,11 @@ authRouter.post("/logout", async (req, res) => {
 
 authRouter.post("/sendMail", async (req, res) => {
   try {
-    const { email, subject, content } = req.body;
+    const { email, subject, content, htmlcontent } = req.body;
     if (!email || !subject) {
       throw new Error("Email, subject, and content are required");
     }
-    const info = await sendMail(email, subject, content);
+    const info = await sendMail(email, subject, content, htmlcontent);
     res.status(200).send({
       message: "Email sent successfully",
       info: info,
