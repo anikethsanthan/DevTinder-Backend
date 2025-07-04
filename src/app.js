@@ -16,6 +16,7 @@ app.use(
       "http://localhost:5173",
       "http://localhost:3000",
       "https://my-portfolio-1f2d5.web.app",
+      "https://dev-tinder-frontend-flame.vercel.app",
     ],
     credentials: true,
   })
