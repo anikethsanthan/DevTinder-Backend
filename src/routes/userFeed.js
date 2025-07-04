@@ -94,6 +94,7 @@ userFeedRouter.get("/feed", userAuth, async (req, res) => {
   }
 });
 
+//get user profile by userId
 userFeedRouter.get("/user/profile/", userAuth, async (req, res) => {
   try {
     const targetUserId = req.params.userId;
