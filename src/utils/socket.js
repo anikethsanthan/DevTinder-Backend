@@ -7,7 +7,7 @@ const initialiseSocket = (server) => {
       origin: [
         "http://localhost:5173",
         "https://my-portfolio-1f2d5.web.app",
-        "https://dev-tinder-frontend-pi.vercel.app/socket.io",
+        "https://dev-tinder-frontend-pi.vercel.app",
       ],
       credentials: true,
       methods: ["GET", "POST"],
