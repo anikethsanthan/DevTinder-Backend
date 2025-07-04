@@ -65,7 +65,7 @@ authRouter.post("/logout", async (req, res) => {
 authRouter.post("/sendMail", async (req, res) => {
   try {
     const { email, subject, content } = req.body;
-    if (!email || !subject || !content) {
+    if (!email || !subject) {
       throw new Error("Email, subject, and content are required");
     }
     const info = await sendMail(email, subject, content);

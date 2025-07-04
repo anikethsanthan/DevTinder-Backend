@@ -7,13 +7,14 @@ const transporter = nodemailer.createTransport({
     pass: process.env.EMAIL_PASS,
   },
 });
-const sendMail = async (email, subject, content) => {
+const sendMail = async (email, subject, content, htmlcontent) => {
   try {
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: email,
       subject: subject,
       text: content,
+      html: htmlcontent,
     };
 
     const info = await transporter.sendMail(mailOptions);
