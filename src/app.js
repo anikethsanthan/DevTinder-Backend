@@ -16,6 +16,7 @@ app.use(
       "http://localhost:5173",
       "https://my-portfolio-1f2d5.web.app",
       "https://dev-tinder-frontend-pi.vercel.app",
+      "https://matchnest.web.app",
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
