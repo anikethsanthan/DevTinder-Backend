@@ -95,7 +95,7 @@ userFeedRouter.get("/feed", userAuth, async (req, res) => {
 });
 
 //get user profile by userId
-userFeedRouter.get("/user/profile/", userAuth, async (req, res) => {
+userFeedRouter.get("/user/profile/:userId", userAuth, async (req, res) => {
   try {
     const targetUserId = req.params.userId;
     const user = await User.findById(targetUserId).select(SAFE_DATA);
